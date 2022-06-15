@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# 키가 들어있는 파일
+Secret.java
+
+# 애플리케이션 설정
+application.yml
+application-oauth.properties

@@ -1,0 +1,202 @@
+com/example/demo/src/community/CommunityDao.java
+ com.example.demo.src.community.CommunityDao
+com/example/demo/src/playlist/PlayListService.java
+ com.example.demo.src.playlist.PlayListService
+com/example/demo/src/videos/model/GetLikedVideoRes.java
+ com.example.demo.src.videos.model.GetLikedVideoRes
+com/example/demo/src/videos/VideoService.java
+ com.example.demo.src.videos.VideoService
+com/example/demo/src/view/ViewDao.java
+ com.example.demo.src.view.ViewDao
+com/example/demo/src/playlist/PlayListDao.java
+ com.example.demo.src.playlist.PlayListDao
+com/example/demo/src/videos/VideoProvider.java
+ com.example.demo.src.videos.VideoProvider
+com/example/demo/src/playlist/model/PlayList.java
+ com.example.demo.src.playlist.model.PlayList
+com/example/demo/src/user/model/PostSubscriptionRes.java
+ com.example.demo.src.user.model.PostSubscriptionRes
+com/example/demo/config/BaseResponseStatus.java
+ com.example.demo.config.BaseResponseStatus
+com/example/demo/src/oauth/OAuthDao.java
+ com.example.demo.src.oauth.OAuthDao
+com/example/demo/src/videos/model/GetStreamingRes.java
+ com.example.demo.src.videos.model.GetStreamingRes
+com/example/demo/src/videos/VideoController.java
+ com.example.demo.src.videos.VideoController
+com/example/demo/src/videos/model/PatchVideoRes.java
+ com.example.demo.src.videos.model.PatchVideoRes
+com/example/demo/src/view/ViewService.java
+ com.example.demo.src.view.ViewService
+com/example/demo/src/view/model/PostVideoViewReq.java
+ com.example.demo.src.view.model.PostVideoViewReq
+com/example/demo/src/payment/PaymentDao.java
+ com.example.demo.src.payment.PaymentDao
+com/example/demo/src/user/model/PostUserRes.java
+ com.example.demo.src.user.model.PostUserRes
+com/example/demo/src/like/LikeController.java
+ com.example.demo.src.like.LikeController
+com/example/demo/src/like/model/PostCommentLikeReq.java
+ com.example.demo.src.like.model.PostCommentLikeReq
+com/example/demo/src/user/model/GetChannelInfoRes.java
+ com.example.demo.src.user.model.GetChannelInfoRes
+com/example/demo/src/payment/model/CardInfo.java
+ com.example.demo.src.payment.model.CardInfo
+com/example/demo/src/videos/VideoDao.java
+ com.example.demo.src.videos.VideoDao
+com/example/demo/src/view/ViewProvider.java
+ com.example.demo.src.view.ViewProvider
+com/example/demo/utils/SHA256.java
+ com.example.demo.utils.SHA256
+com/example/demo/src/videos/model/PostVideoRes.java
+ com.example.demo.src.videos.model.PostVideoRes
+com/example/demo/src/user/model/PostSubscriptionReq.java
+ com.example.demo.src.user.model.PostSubscriptionReq
+com/example/demo/src/user/model/PostLoginRes.java
+ com.example.demo.src.user.model.PostLoginRes
+com/example/demo/src/user/UserDao.java
+ com.example.demo.src.user.UserDao
+com/example/demo/src/user/model/PatchUserReq.java
+ com.example.demo.src.user.model.PatchUserReq
+com/example/demo/src/test/TestController.java
+ com.example.demo.src.test.TestController
+com/example/demo/src/videos/model/GetVideoRes.java
+ com.example.demo.src.videos.model.GetVideoRes
+com/example/demo/src/user/UserController.java
+ com.example.demo.src.user.UserController
+com/example/demo/src/payment/model/PostPaymentReq.java
+ com.example.demo.src.payment.model.PostPaymentReq
+com/example/demo/src/comment/model/PostCommentReq.java
+ com.example.demo.src.comment.model.PostCommentReq
+com/example/demo/src/comment/model/PatchCommentReq.java
+ com.example.demo.src.comment.model.PatchCommentReq
+com/example/demo/src/payment/PaymentProvider.java
+ com.example.demo.src.payment.PaymentProvider
+com/example/demo/src/notification/NotificationProvider.java
+ com.example.demo.src.notification.NotificationProvider
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
+com/example/demo/src/user/UserProvider.java
+ com.example.demo.src.user.UserProvider
+com/example/demo/src/oauth/OAuthProvider.java
+ com.example.demo.src.oauth.OAuthProvider
+com/example/demo/src/like/LikeProvider.java
+ com.example.demo.src.like.LikeProvider
+com/example/demo/src/like/model/PostVideoLikeReq.java
+ com.example.demo.src.like.model.PostVideoLikeReq
+com/example/demo/config/Constant.java
+ com.example.demo.config.Constant
+com/example/demo/src/user/model/PatchUserStatusRes.java
+ com.example.demo.src.user.model.PatchUserStatusRes
+com/example/demo/src/view/ViewController.java
+ com.example.demo.src.view.ViewController
+com/example/demo/src/comment/CommentService.java
+ com.example.demo.src.comment.CommentService
+com/example/demo/utils/ValidationRegex.java
+ com.example.demo.utils.ValidationRegex
+com/example/demo/src/comment/CommentProvider.java
+ com.example.demo.src.comment.CommentProvider
+com/example/demo/src/payment/model/PostPaymentRes.java
+ com.example.demo.src.payment.model.PostPaymentRes
+com/example/demo/src/playlist/PlayListController.java
+ com.example.demo.src.playlist.PlayListController
+com/example/demo/src/playlist/model/PostPlayListReq.java
+ com.example.demo.src.playlist.model.PostPlayListReq
+com/example/demo/src/community/CommunityProvider.java
+ com.example.demo.src.community.CommunityProvider
+com/example/demo/src/oauth/OAuthController.java
+ com.example.demo.src.oauth.OAuthController
+com/example/demo/src/comment/model/PatchCommentRes.java
+ com.example.demo.src.comment.model.PatchCommentRes
+com/example/demo/src/user/model/PatchUserNameReq.java
+ com.example.demo.src.user.model.PatchUserNameReq
+com/example/demo/src/payment/PaymentController.java
+ com.example.demo.src.payment.PaymentController
+com/example/demo/config/secret/Secret.java
+ com.example.demo.config.secret.Secret
+com/example/demo/src/community/CommunityService.java
+ com.example.demo.src.community.CommunityService
+com/example/demo/src/oauth/OAuthService.java
+ com.example.demo.src.oauth.OAuthService
+com/example/demo/src/like/LikeDao.java
+ com.example.demo.src.like.LikeDao
+com/example/demo/src/comment/CommentController.java
+ com.example.demo.src.comment.CommentController
+com/example/demo/config/BaseResponse.java
+ com.example.demo.config.BaseResponse
+com/example/demo/src/notification/NotificationController.java
+ com.example.demo.src.notification.NotificationController
+com/example/demo/src/community/model/GetCommunityPostRes.java
+ com.example.demo.src.community.model.GetCommunityPostRes
+com/example/demo/src/notification/NotificationService.java
+ com.example.demo.src.notification.NotificationService
+com/example/demo/src/user/UserService.java
+ com.example.demo.src.user.UserService
+com/example/demo/src/playlist/model/PlayListVideoRes.java
+ com.example.demo.src.playlist.model.PlayListVideoRes
+com/example/demo/src/videos/model/PostVideoReq.java
+ com.example.demo.src.videos.model.PostVideoReq
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
+com/example/demo/src/payment/PaymentService.java
+ com.example.demo.src.payment.PaymentService
+com/example/demo/src/videos/model/GetSubscriptChannelVideoRes.java
+ com.example.demo.src.videos.model.GetSubscriptChannelVideoRes
+com/example/demo/src/user/model/PostUserReq.java
+ com.example.demo.src.user.model.PostUserReq
+com/example/demo/src/comment/model/PostCommentRes.java
+ com.example.demo.src.comment.model.PostCommentRes
+com/example/demo/src/comment/model/GetStreamingCommentRes.java
+ com.example.demo.src.comment.model.GetStreamingCommentRes
+com/example/demo/src/videos/model/Video.java
+ com.example.demo.src.videos.model.Video
+com/example/demo/src/like/model/PatchCommentLikeReq.java
+ com.example.demo.src.like.model.PatchCommentLikeReq
+com/example/demo/src/videos/model/PatchVideoReq.java
+ com.example.demo.src.videos.model.PatchVideoReq
+com/example/demo/src/videos/model/GetHistoryVideoRes.java
+ com.example.demo.src.videos.model.GetHistoryVideoRes
+com/example/demo/src/payment/model/GetPaymentRes.java
+ com.example.demo.src.payment.model.GetPaymentRes
+com/example/demo/src/comment/model/Comment.java
+ com.example.demo.src.comment.model.Comment
+com/example/demo/src/WebSecurityConfig.java
+ com.example.demo.src.WebSecurityConfig
+com/example/demo/src/community/model/PatchCommunityDescriptionReq.java
+ com.example.demo.src.community.model.PatchCommunityDescriptionReq
+com/example/demo/src/user/model/PostLoginReq.java
+ com.example.demo.src.user.model.PostLoginReq
+com/example/demo/src/comment/CommentDao.java
+ com.example.demo.src.comment.CommentDao
+com/example/demo/src/playlist/model/GetPlayListsRes.java
+ com.example.demo.src.playlist.model.GetPlayListsRes
+com/example/demo/src/videos/model/GetClipRes.java
+ com.example.demo.src.videos.model.GetClipRes
+com/example/demo/src/community/CommunityController.java
+ com.example.demo.src.community.CommunityController
+com/example/demo/src/user/model/PatchUserStatusReq.java
+ com.example.demo.src.user.model.PatchUserStatusReq
+com/example/demo/src/user/model/User.java
+ com.example.demo.src.user.model.User
+com/example/demo/src/like/model/PatchVideoLikeReq.java
+ com.example.demo.src.like.model.PatchVideoLikeReq
+com/example/demo/src/videos/model/GetShortsRes.java
+ com.example.demo.src.videos.model.GetShortsRes
+com/example/demo/src/notification/model/GetNotificationRes.java
+ com.example.demo.src.notification.model.GetNotificationRes
+com/example/demo/src/like/LikeService.java
+ com.example.demo.src.like.LikeService
+com/example/demo/src/user/model/GetUserRes.java
+ com.example.demo.src.user.model.GetUserRes
+com/example/demo/src/comment/model/GetCommentRes.java
+ com.example.demo.src.comment.model.GetCommentRes
+com/example/demo/DemoApplication.java
+ com.example.demo.DemoApplication
+com/example/demo/src/payment/model/Payment.java
+ com.example.demo.src.payment.model.Payment
+com/example/demo/src/notification/NotificationDao.java
+ com.example.demo.src.notification.NotificationDao
+com/example/demo/src/playlist/model/PostPlayListRes.java
+ com.example.demo.src.playlist.model.PostPlayListRes
+com/example/demo/src/playlist/PlayListProvider.java
+ com.example.demo.src.playlist.PlayListProvider
