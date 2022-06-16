@@ -31,9 +31,12 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/{userId}")
-    public BaseResponse<List<GetChannelInfoRes>> getChannelInfo(@PathVariable("userId")long  userId){
-            try{
-                    List<GetChannelInfoRes> channelInfo = userProvider.getChannelInfo(userId);
+    public BaseResponse<List<GetChannelInfoRes>> getChannelInfo(@PathVariable("userId")long  userId) {
+        try{
+            if(userProvider.checkExistingUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+            List<GetChannelInfoRes> channelInfo = userProvider.getChannelInfo(userId);
                     return  new BaseResponse<List<GetChannelInfoRes>>(channelInfo);
             }
             catch (BaseException baseException){
@@ -45,6 +48,9 @@ public class UserController {
     @PatchMapping("/{userId}/status")
     public BaseResponse<PatchUserStatusRes> patchUserStatus(@PathVariable("userId")long userId){
         try{
+            if(userProvider.checkExistingUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             PatchUserStatusReq patchUserStatusReq = userProvider.getPatchUserStatusReq(userId);
             userService.patchUserStatus(patchUserStatusReq);
             PatchUserStatusRes patchUserStatusRes = userProvider.getPatchUserStatusRes(userId);
@@ -59,6 +65,10 @@ public class UserController {
     public BaseResponse<String>         patchUserName(@PathVariable("userId")long userId, @RequestBody  String userName){
 
         try{
+            if(userProvider.checkExistingUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -80,6 +90,13 @@ public class UserController {
     @PostMapping("/subscription/{userId}")
     public BaseResponse<PostSubscriptionRes>    postSubscription(@PathVariable("userId")long userId, @RequestBody long channelId){
         try{
+            if(userProvider.checkExistingUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+            if(userProvider.checkExistingUser(channelId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){

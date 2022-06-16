@@ -142,4 +142,47 @@ public class UserDao {
                         rs.getString("password")
                 ),getPwdQueryParams);
     }
+
+    public  int isExistingUser(long userId){
+        String  checkExistingUserQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Users  WHERE userId = ?);";
+        long    checkExistingUserQueryParams = userId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingUserQuery, int.class,checkExistingUserQueryParams);
+    }
+
+    public List<GetUserRes> getUserByKakaoId(long   userId){
+        String  getUserByKakaoIdQuery = "SELECT * FROM Users WHERE (userId = ? AND status != 'DEACTIVATE')";
+        long    getUserByKakaoIdQueryParams = userId;
+
+        return this.jdbcTemplate.query(getUserByKakaoIdQuery,
+                (rs, rowNum) -> new GetUserRes(
+                        rs.getLong("userId"),
+                        rs.getString("userName"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                )
+                ,getUserByKakaoIdQueryParams);
+    }
+
+    public List<GetUserRes> getUserByEmail(String email) {
+        String  getUserByEmailQuery = "SELECT * FROM Users WHERE (email = ? AND status != 'DEACTIVATE')";
+        String    getUserByEmailQueryParams = email;
+
+        return this.jdbcTemplate.query(getUserByEmailQuery,
+                (rs, rowNum) -> new GetUserRes(
+                        rs.getLong("userId"),
+                        rs.getString("userName"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                )
+                ,getUserByEmailQueryParams);
+    }
+
+    public int createKakaoId(long userId, String email) {
+        String modifyUserNameQuery = "update Users set userId = ? where email = ? ";
+        Object[] modifyUserNameParams = new Object[]{userId , email};
+
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
+    }
 }

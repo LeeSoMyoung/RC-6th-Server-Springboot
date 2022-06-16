@@ -2,6 +2,7 @@ package com.example.demo.src.community;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.community.model.GetCommunityPostRes;
 import com.example.demo.src.community.model.PatchCommunityDescriptionReq;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class CommunityController {
     @GetMapping("/users/{userId}")
     public BaseResponse<List<GetCommunityPostRes>>    getCommunityPost(@PathVariable("userId")long userId){
         try{
+            if(communityProvider.checkExistingUser(userId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             List<GetCommunityPostRes>   postList = communityProvider.getPostList(userId);
             return new BaseResponse<List<GetCommunityPostRes>>(postList);
         }catch (BaseException baseException){
@@ -41,6 +45,10 @@ public class CommunityController {
     @PatchMapping("/posts/{postId}")
     public BaseResponse<String>     patchPostDescription(@PathVariable("postId")long postId, @RequestBody String description){
         try{
+            if(communityProvider.checkPost(postId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.POST_NOT_EXISTS);
+            }
+
             PatchCommunityDescriptionReq patchCommunityDescriptionReq = new PatchCommunityDescriptionReq(postId, description);
             communityService.modifyDescription(patchCommunityDescriptionReq);
 
@@ -55,6 +63,9 @@ public class CommunityController {
     @GetMapping("/posts/{postId}")
     public BaseResponse<List<GetCommunityPostRes>>    getPostByPostId(@PathVariable("postId")long postId){
         try{
+            if(communityProvider.checkPost(postId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.POST_NOT_EXISTS);
+            }
             List<GetCommunityPostRes> getCommunityPostRes = communityProvider.getPost(postId);
             return  new BaseResponse<List<GetCommunityPostRes>>(getCommunityPostRes);
         }catch (BaseException baseException){

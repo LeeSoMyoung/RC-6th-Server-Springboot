@@ -38,4 +38,22 @@ public class CommunityProvider {
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
     }
+
+    public int      checkExistingUser(long  userId) throws BaseException{
+        try{
+            return  communityDao.isExistingUser(userId);
+        }
+        catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
+    }
+
+    public int      checkPost(long  postId) throws BaseException{
+        try{
+            return communityDao.checkPosts(postId);
+        }
+        catch (Exception e){
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
 }

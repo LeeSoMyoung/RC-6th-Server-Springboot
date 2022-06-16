@@ -2,6 +2,7 @@ package com.example.demo.src.view;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.view.model.PostVideoViewReq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,12 @@ public class ViewController {
     @PostMapping("/{videoId}/{userId}")
     public BaseResponse<String> postVideoView(@PathVariable("videoId")long  videoId, @PathVariable("userId")long userId){
         try{
+            if(viewProvider.checkUser(userId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+            if(viewProvider.checkVideo(videoId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.VIDEO_NOT_EXISTS);
+            }
             PostVideoViewReq postVideoViewReq = new PostVideoViewReq(videoId, userId);
             viewService.createVideoView(postVideoViewReq);
             String  result = "영상 뷰가 추가되었습니다.";

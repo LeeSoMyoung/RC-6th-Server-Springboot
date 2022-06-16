@@ -21,4 +21,12 @@ public class ViewDao {
         Object[]    createViewQueryParams = new Object[]{postVideoViewReq.getUserId(), postVideoViewReq.getVideoId()};
         return  this.jdbcTemplate.update(createViewQuery, createViewQueryParams);
     }
+
+    public int  checkExistingVideo(long videoId){
+        String      checkExistingVideoQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Videos  WHERE videoId = ?);";
+        long        checkExistingVideoQueryParams = videoId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingVideoQuery, int.class, checkExistingVideoQueryParams);
+    }
 }

@@ -34,6 +34,12 @@ public class PaymentController {
     @GetMapping("/card-infos/{userId}")
     public BaseResponse<List<CardInfo>> getCardInfos(@PathVariable("userId")long  userId){
         try {
+            long    jwtUserId = jwtService.getUserId();
+
+            if(jwtUserId != userId){
+                return new BaseResponse<>(BaseResponseStatus.INVALID_USER_JWT);
+            }
+
             List<CardInfo> getCardResList = paymentProvider.getCardInfos(userId);
             return new BaseResponse<>(getCardResList);
         }catch (BaseException exception){

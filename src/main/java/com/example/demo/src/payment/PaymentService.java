@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class PaymentService {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
 
@@ -21,6 +24,7 @@ public class PaymentService {
         this.paymentProvider = paymentProvider;
     }
 
+    @Transactional
     public PostPaymentRes createPaymentInfo(PostPaymentReq postPaymentReq)   throws BaseException{
         try{
             long    paymentId = paymentDao.createPaymentInfo(postPaymentReq);

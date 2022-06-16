@@ -33,4 +33,13 @@ public class LikeProvider {
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
     }
+
+    public int      checkExistingUser(long  userId) throws BaseException{
+        try{
+            return  likeDao.isExistingUser(userId);
+        }
+        catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
+    }
 }

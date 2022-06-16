@@ -9,7 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class PlayListService {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
 
@@ -22,6 +25,7 @@ public class PlayListService {
         this.playListProvider = playListProvider;
     }
 
+    @Transactional
     public PostPlayListRes createPlayList(PostPlayListReq postPlayListReq) throws BaseException{
         try{
             long    playListId = playListDao.createdPlayList(postPlayListReq);

@@ -38,6 +38,9 @@ public class PlayListController {
     @GetMapping("/users/{userId}")
     public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@PathVariable("userId")long userId){
         try{
+            if(playListProvider.checkExistingUser(userId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             List<GetPlayListsRes>   userPlayList = playListProvider.getUserPlayLists(userId);
             return  new BaseResponse<>(userPlayList);
         }
@@ -50,6 +53,9 @@ public class PlayListController {
     @GetMapping("/{playListId}")
     public BaseResponse<List<PlayListVideoRes>> getPlayListVideos(@PathVariable("playListId")long playListId){
         try{
+            if(playListProvider.checkExistingPlayListId(playListId) == 0){
+
+            }
             List<PlayListVideoRes>  playListVideoResList = playListProvider.getPlayListVideos(playListId);
             return new BaseResponse<>(playListVideoResList);
         }

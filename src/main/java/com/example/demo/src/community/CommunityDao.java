@@ -132,4 +132,20 @@ public class CommunityDao {
 
         return this.jdbcTemplate.update(modifyDescriptionQuery, modifyDescriptionQueryParams);
     }
+
+    public  int isExistingUser(long userId){
+        String  checkExistingUserQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Users  WHERE userId = ?);";
+        long    checkExistingUserQueryParams = userId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingUserQuery, int.class,checkExistingUserQueryParams);
+    }
+
+    public  int checkPosts(long postId){
+        String      checkPostQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM YoutubeCommunityPosts  WHERE postId = ?);";
+        long        checkPostQueryParams = postId;
+
+        return this.jdbcTemplate.queryForObject(checkPostQuery, int.class, checkPostQueryParams);
+    }
 }

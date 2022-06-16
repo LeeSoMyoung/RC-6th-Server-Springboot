@@ -50,4 +50,13 @@ public class LikeDao {
 
         return this.jdbcTemplate.update(createCommentLikeQuery, createCommentLikeQueryParams);
     }
+
+    public  int isExistingUser(long userId){
+        String  checkExistingUserQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Users  WHERE userId = ?);";
+        long    checkExistingUserQueryParams = userId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingUserQuery, int.class,checkExistingUserQueryParams);
+    }
+
 }

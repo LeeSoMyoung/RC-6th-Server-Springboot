@@ -21,11 +21,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
+@Transactional
 public class UserService {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
 
@@ -40,6 +42,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
+    @Transactional
     public void   patchUserStatus(PatchUserStatusReq patchUserStatusReq)    throws BaseException{
         try{
             int result = userDao.changeUserStatus(patchUserStatusReq);
@@ -51,6 +54,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void     patchUserName(PatchUserNameReq patchUserNameReq)    throws BaseException{
         try{
             int result = userDao.modifyUserName(patchUserNameReq);
@@ -62,6 +66,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public PostSubscriptionRes postChannelFollow(PostSubscriptionReq postSubscriptionReq)  throws BaseException{
        // try{
             long    subscriptionId = userDao.followChannel(postSubscriptionReq);
@@ -71,7 +76,7 @@ public class UserService {
         //    throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
       //  }
     }
-
+    @Transactional
     public PostUserRes createUser(PostUserReq postUserReq)  throws BaseException{
         if(userProvider.checkUserName(postUserReq.getUserName())==1){
             throw new BaseException(BaseResponseStatus.POST_USERS_EXISTS_USERNAME);
@@ -90,6 +95,18 @@ public class UserService {
             String  jwt = jwtService.createJwt(userId);
             return new PostUserRes(jwt, userId);
         }catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
+
+    public void createKakaoId(long userId, String email) throws BaseException{
+        try{
+            int result = userDao.createKakaoId(userId, email);
+            if(result == 0){
+                throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
+            }
+        }
+        catch (Exception e){
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
     }

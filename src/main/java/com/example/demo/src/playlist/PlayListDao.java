@@ -113,4 +113,20 @@ public class PlayListDao {
         String      getLastCreateIdQuery = "SELECT last_insert_id();";
         return this.jdbcTemplate.queryForObject(getLastCreateIdQuery, long.class);
     }
+
+    public  int isExistingUser(long userId){
+        String  checkExistingUserQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Users  WHERE userId = ?);";
+        long    checkExistingUserQueryParams = userId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingUserQuery, int.class,checkExistingUserQueryParams);
+    }
+
+    public  int isExistingPlayList(long playListId){
+        String  checkExistingUserQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Users  WHERE userId = ?);";
+        long    checkExistingUserQueryParams = playListId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingUserQuery, int.class,checkExistingUserQueryParams);
+    }
 }

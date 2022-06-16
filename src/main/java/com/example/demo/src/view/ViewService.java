@@ -24,6 +24,7 @@ public class ViewService {
         this.viewProvider = viewProvider;
     }
 
+    @Transactional
     public void createVideoView(PostVideoViewReq postVideoViewReq)  throws BaseException {
         try{
             int result = viewDao.createVideoView(postVideoViewReq);

@@ -12,14 +12,12 @@ com/example/demo/src/playlist/PlayListDao.java
  com.example.demo.src.playlist.PlayListDao
 com/example/demo/src/videos/VideoProvider.java
  com.example.demo.src.videos.VideoProvider
-com/example/demo/src/playlist/model/PlayList.java
- com.example.demo.src.playlist.model.PlayList
 com/example/demo/src/user/model/PostSubscriptionRes.java
  com.example.demo.src.user.model.PostSubscriptionRes
+com/example/demo/src/playlist/model/PlayList.java
+ com.example.demo.src.playlist.model.PlayList
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
-com/example/demo/src/oauth/OAuthDao.java
- com.example.demo.src.oauth.OAuthDao
 com/example/demo/src/videos/model/GetStreamingRes.java
  com.example.demo.src.videos.model.GetStreamingRes
 com/example/demo/src/videos/VideoController.java
@@ -74,6 +72,8 @@ com/example/demo/src/payment/PaymentProvider.java
  com.example.demo.src.payment.PaymentProvider
 com/example/demo/src/notification/NotificationProvider.java
  com.example.demo.src.notification.NotificationProvider
+com/example/demo/src/oauth/model/KakaoUser.java
+ com.example.demo.src.oauth.model.KakaoUser
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/UserProvider.java
@@ -126,6 +126,8 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/notification/NotificationController.java
  com.example.demo.src.notification.NotificationController
+com/example/demo/src/oauth/config/KakaoOAuth.java
+ com.example.demo.src.oauth.config.KakaoOAuth
 com/example/demo/src/community/model/GetCommunityPostRes.java
  com.example.demo.src.community.model.GetCommunityPostRes
 com/example/demo/src/notification/NotificationService.java

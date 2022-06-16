@@ -2,6 +2,7 @@ package com.example.demo.src.videos;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.videos.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,10 @@ public class VideoController {
     @GetMapping("/{videoId}")
     public BaseResponse<GetVideoRes>    getVideo(@PathVariable("videoId")long  videoId){
         try{
+            if(videoProvider.checkVideo(videoId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.VIDEO_NOT_EXISTS);
+            }
+
             GetVideoRes getVideoRes = videoProvider.getVideo(videoId);
             return  new BaseResponse<GetVideoRes>(getVideoRes);
         } catch(BaseException baseException){
@@ -66,6 +71,9 @@ public class VideoController {
     @GetMapping("/streaming/{videoId}")
     public BaseResponse<List<GetStreamingRes>>    getStreamingVideo(@PathVariable("videoId")long  videoId){
         try {
+            if(videoProvider.checkVideo(videoId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.VIDEO_NOT_EXISTS);
+            }
             List<GetStreamingRes> getStreamingVideo = videoProvider.getStreamingRes(videoId);
             return new BaseResponse<List<GetStreamingRes>>(getStreamingVideo);
         }catch (BaseException e){
@@ -77,6 +85,9 @@ public class VideoController {
     @GetMapping("/likes/{userId}")
     public BaseResponse<List<GetLikedVideoRes>>     getLikedVideos(@PathVariable("userId")long  userId){
         try{
+            if(videoProvider.checkUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             List<GetLikedVideoRes> likedVideoResList = videoProvider.getUserLikeVideos(userId);
             return new BaseResponse<>(likedVideoResList);
         }catch (BaseException e){
@@ -88,6 +99,9 @@ public class VideoController {
     @GetMapping("/history/{userId}")
     public BaseResponse<List<GetHistoryVideoRes>>   getUsersHistoryList(@PathVariable("userId")long  userId){
         try{
+            if(videoProvider.checkUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             List<GetHistoryVideoRes>    userHistoryVideoList = videoProvider.getHistoryList(userId);
             return new BaseResponse<>(userHistoryVideoList);
         }
@@ -100,6 +114,9 @@ public class VideoController {
     @GetMapping("/clips/{userId}")
     public BaseResponse<List<GetClipRes>>   getUserClipList(@PathVariable("userId")long userId){
         try{
+            if(videoProvider.checkUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             List<GetClipRes> clipList = videoProvider.getUserClips(userId);
             return  new BaseResponse<List<GetClipRes>>(clipList);
         }
@@ -112,6 +129,9 @@ public class VideoController {
     @GetMapping("/subscription/{userId}")
     public BaseResponse<List<GetSubscriptChannelVideoRes>>  getSubscriptChannelVideoList(@PathVariable("userId")long userId){
         try{
+            if(videoProvider.checkUser(userId) == 0){
+                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
             List<GetSubscriptChannelVideoRes> videoList = videoProvider.getSubscriptChannelVideoList(userId);
             return new BaseResponse<List<GetSubscriptChannelVideoRes>>(videoList);
         } catch (BaseException baseException){

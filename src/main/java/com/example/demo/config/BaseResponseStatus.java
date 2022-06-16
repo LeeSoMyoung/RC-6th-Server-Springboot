@@ -29,10 +29,6 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
-    POST_USERS_EMPTY_USERNAME(false,2023, "유저 이름을 입력하세요."),
-    POST_USERS_EXISTS_USERNAME(false, 2024, "중복된 유저이름입니다."),
-    POST_LOGIN_EMPTY_EMAIL(false, 2025,"이메일을 입력하세요."),
-    POST_LOGIN_EMPTY_PASSWORD(false, 2026, "비밀번호를 입력하세요."),
 
     // [PATCH] / comments
     PATCH_COMMENT_EMPTY_DESCRIPTION(false, 2018, "댓글을 입력해주세요"),
@@ -46,8 +42,14 @@ public enum BaseResponseStatus {
     POST_LIKES_ALREAY_EXISTS(false, 2021, "이미 존재하는 좋아요/싫어요입니다."),
     POST_RESULT_NOT_EXISTS(false, 2022, "영향 받은 컬럼이 존재하지 않습니다."),
 
-    // [GET] 카카오
-    GET_KAKAO_CODE_ERROR(false, 2023,"카카오 로그인 코드 가져오는데 실패하였습니다."),
+    USER_NOT_EXISTS(false, 2023, "존재하지 않는 유저입니다."),
+    POST_USERS_EMPTY_USERNAME(false,2024,"이름이 존재하지 않습니다."),
+    POST_LOGIN_EMPTY_EMAIL(false, 2025, "이메일이 입력되지 않았습니다."),
+    POST_LOGIN_EMPTY_PASSWORD(false, 2026, "비밀번호가 입력되지 않았습니다."),
+    VIDEO_NOT_EXISTS(false, 2027, "존재하지 않는 영상입니다."),
+    POST_NOT_EXISTS(false, 2028, "존재하지 않는 포스트입니다."),
+    POST_USERS_EXISTS_USERNAME(false, 2029, "이미 존재하는 이름입니다."),
+    PLAYLIST_NOT_EXISTS(false, 2030, "존재하지 않는 플레이리스트입니다."),
 
     /**
      * 3000 : Response 오류

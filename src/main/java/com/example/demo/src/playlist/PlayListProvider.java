@@ -44,4 +44,24 @@ public class PlayListProvider {
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
     }
+
+    @Transactional(readOnly = true)
+    public int      checkExistingUser(long  userId) throws BaseException{
+        try{
+            return  playListDao.isExistingUser(userId);
+        }
+        catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public int      checkExistingPlayListId(long  playListId) throws BaseException{
+        try{
+            return  playListDao.isExistingPlayList(playListId);
+        }
+        catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
+    }
 }

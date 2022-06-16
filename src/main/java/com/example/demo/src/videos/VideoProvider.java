@@ -108,4 +108,24 @@ public class VideoProvider {
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
     }
+
+    @Transactional(readOnly = true)
+    public int  checkVideo(long videoId)    throws BaseException{
+        try{
+            return videoDao.checkExistingVideo(videoId);
+        }
+        catch (Exception e){
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public int  checkUser(long  userId) throws BaseException{
+        try{
+            return videoDao.isExistingUser(userId);
+        }
+        catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
 }

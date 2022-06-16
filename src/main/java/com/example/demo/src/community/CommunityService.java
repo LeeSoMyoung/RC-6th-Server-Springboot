@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CommunityService {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
@@ -19,6 +21,7 @@ public class CommunityService {
         this.communityProvider = communityProvider;
     }
 
+    @Transactional
     public void modifyDescription(PatchCommunityDescriptionReq  patchCommunityDescriptionReq)   throws BaseException{
        // try{
             int result = communityDao.modifyDescription(patchCommunityDescriptionReq);

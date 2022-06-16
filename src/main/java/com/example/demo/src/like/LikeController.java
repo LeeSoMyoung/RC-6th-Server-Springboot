@@ -35,6 +35,12 @@ public class LikeController {
                                                 @RequestBody String isLike)
     {
         try{
+            if(likeProvider.checkExistingUser(userId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+
+
+
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -58,6 +64,10 @@ public class LikeController {
                                                   @RequestBody String isLike)
     {
         try{
+
+            if(likeProvider.checkExistingUser(userId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
 
             long    jwtUserId = jwtService.getUserId();
 

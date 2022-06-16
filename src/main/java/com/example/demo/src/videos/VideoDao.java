@@ -322,4 +322,20 @@ public class VideoDao{
                 ,
                 getSubscriptChannelVideosQueryParams);
     }
+
+    public  int isExistingUser(long userId){
+        String  checkExistingUserQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Users  WHERE userId = ?);";
+        long    checkExistingUserQueryParams = userId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingUserQuery, int.class,checkExistingUserQueryParams);
+    }
+
+    public int  checkExistingVideo(long videoId){
+        String      checkExistingVideoQuery = "SELECT\n" +
+                "    EXISTS(SELECT * FROM Videos  WHERE videoId = ?);";
+        long        checkExistingVideoQueryParams = videoId;
+
+        return this.jdbcTemplate.queryForObject(checkExistingVideoQuery, int.class, checkExistingVideoQueryParams);
+    }
 }

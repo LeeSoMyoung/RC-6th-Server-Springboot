@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class CommentService {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -21,6 +24,7 @@ public class CommentService {
         this.commentProvider = commentProvider;
     }
 
+    @Transactional
     public void modifyCommentDescription(PatchCommentReq patchCommentReq)   throws BaseException{
         try{
             int res = commentDao.modifyComment(patchCommentReq);
@@ -33,6 +37,7 @@ public class CommentService {
         }
     }
 
+    @Transactional
     public PostCommentRes createComment(PostCommentReq postCommentReq) throws BaseException{
         if(postCommentReq.getDescription().equals("") || postCommentReq.getDescription()==null){
             throw new BaseException(BaseResponseStatus.POST_COMMENT_EMPTY_DESCRIPTION);
