@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.view.model.PostVideoViewReq;
+import com.example.demo.utils.ValidationRegex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,15 @@ public class ViewController {
 
     @ResponseBody
     @PostMapping("/{videoId}/{userId}")
-    public BaseResponse<String> postVideoView(@PathVariable("videoId")long  videoId, @PathVariable("userId")long userId){
+    public BaseResponse<String> postVideoView(@PathVariable("videoId")String  video, @PathVariable("userId")String user){
         try{
-            if(viewProvider.checkUser(userId) == 0){
-                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            if(!ValidationRegex.isDigit(video) || !ValidationRegex.isDigit(user)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
-            if(viewProvider.checkVideo(videoId) == 0){
-                return new BaseResponse<>(BaseResponseStatus.VIDEO_NOT_EXISTS);
-            }
+
+            long    videoId = Long.parseLong(video);
+            long    userId = Long.parseLong(user);
+
             PostVideoViewReq postVideoViewReq = new PostVideoViewReq(videoId, userId);
             viewService.createVideoView(postVideoViewReq);
             String  result = "영상 뷰가 추가되었습니다.";

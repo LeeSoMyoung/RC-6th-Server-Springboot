@@ -1,6 +1,7 @@
 package com.example.demo.src.playlist;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.playlist.model.*;
 import org.slf4j.Logger;
@@ -25,24 +26,20 @@ public class PlayListProvider {
 
     @Transactional(readOnly = true)
     public List<GetPlayListsRes>    getUserPlayLists(long   userId) throws BaseException{
-        try{
-            List<GetPlayListsRes>   userPlayLists = playListDao.getPlayListsByUserId(userId);
-            return userPlayLists;
+        if(checkExistingUser(userId) == 0){
+            throw  new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
         }
-        catch(Exception exception){
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
-        }
+        List<GetPlayListsRes>   userPlayLists = playListDao.getPlayListsByUserId(userId);
+        return userPlayLists;
     }
 
     @Transactional(readOnly = true)
     public List<PlayListVideoRes>   getPlayListVideos(long  playListId) throws BaseException{
-       try{
-            List<PlayListVideoRes>  videoList = playListDao.playListVideos(playListId);
-            return  videoList;
+        if(checkExistingPlayListId(playListId) == 0){
+            throw  new BaseException(BaseResponseStatus.PLAYLIST_NOT_EXISTS);
         }
-        catch (Exception exception){
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
-        }
+        List<PlayListVideoRes>  videoList = playListDao.playListVideos(playListId);
+        return  videoList;
     }
 
     @Transactional(readOnly = true)

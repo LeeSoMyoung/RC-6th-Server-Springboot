@@ -8,6 +8,7 @@ import com.example.demo.src.playlist.model.PlayListVideoRes;
 import com.example.demo.src.playlist.model.PostPlayListReq;
 import com.example.demo.src.playlist.model.PostPlayListRes;
 import com.example.demo.utils.JwtService;
+import com.example.demo.utils.ValidationRegex;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,14 @@ public class PlayListController {
 
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@RequestParam("userId")long userId){
+    public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@RequestParam("userId")String id){
         try{
-            if(playListProvider.checkExistingUser(userId) == 0){
-                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
+
+            long        userId = Long.parseLong(id);
+
             List<GetPlayListsRes>   userPlayList = playListProvider.getUserPlayLists(userId);
             return  new BaseResponse<>(userPlayList);
         }
@@ -51,11 +55,14 @@ public class PlayListController {
 
     @ResponseBody
     @GetMapping("/{playListId}")
-    public BaseResponse<List<PlayListVideoRes>> getPlayListVideos(@PathVariable("playListId")long playListId){
+    public BaseResponse<List<PlayListVideoRes>> getPlayListVideos(@PathVariable("playListId")String id){
         try{
-            if(playListProvider.checkExistingPlayListId(playListId) == 0){
-                return  new BaseResponse<>(BaseResponseStatus.PLAYLIST_NOT_EXISTS);
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
+
+            long playListId = Long.parseLong(id);
+
             List<PlayListVideoRes>  playListVideoResList = playListProvider.getPlayListVideos(playListId);
             return new BaseResponse<>(playListVideoResList);
         }
@@ -66,15 +73,15 @@ public class PlayListController {
 
     @ResponseBody
     @PostMapping("/users/{userId}")
-    public BaseResponse<PostPlayListRes>    createPlayList(@PathVariable("userId")long userId,
+    public BaseResponse<PostPlayListRes>    createPlayList(@PathVariable("userId")String id,
                                                            @RequestBody(required = true) String playListTitle)
     {
         try{
-
-            if(playListProvider.checkExistingUser(userId) == 0){
-                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
 
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){

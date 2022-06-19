@@ -1,6 +1,7 @@
 package com.example.demo.src.like;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.like.model.PostCommentLikeReq;
 import com.example.demo.src.like.model.PostVideoLikeReq;
@@ -23,24 +24,27 @@ public class LikeService {
     }
 
     public void createCommentLike(PostCommentLikeReq postCommentLikeReq)    throws BaseException {
+        if(likeProvider.checkExistingUser(postCommentLikeReq.getUserId()) == 0){
+            throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
         if(likeProvider.checkCommentLike(postCommentLikeReq)==1){
             throw new BaseException(BaseResponseStatus.POST_LIKES_ALREAY_EXISTS);
         }
-        try{
-            int result = likeDao.createCommentLike(postCommentLikeReq);
-            if(result == 0){
-                throw new BaseException(BaseResponseStatus.POST_RESULT_NOT_EXISTS);
-            }
-        }catch (Exception exception){
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        int result = likeDao.createCommentLike(postCommentLikeReq);
+        if(result == 0){
+            throw new BaseException(BaseResponseStatus.POST_RESULT_NOT_EXISTS);
         }
     }
 
     public void createVideoLike(PostVideoLikeReq postVideoLikeReq)  throws BaseException{
-        if(likeProvider.checkVideoLike(postVideoLikeReq) == 1){
-            throw new BaseException(BaseResponseStatus.POST_LIKES_ALREAY_EXISTS);
-        }
        try{
+           if(likeProvider.checkExistingUser(postVideoLikeReq.getUserId()) == 0){
+               throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+           }
+
+           if(likeProvider.checkVideoLike(postVideoLikeReq) == 1){
+               throw new BaseException(BaseResponseStatus.POST_LIKES_ALREAY_EXISTS);
+           }
             int result = likeDao.createVideoLike(postVideoLikeReq);
             if(result == 0){
                 throw new BaseException(BaseResponseStatus.POST_RESULT_NOT_EXISTS);

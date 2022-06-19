@@ -1,6 +1,7 @@
 package com.example.demo.src.community;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.community.model.GetCommunityPostRes;
 import org.slf4j.Logger;
@@ -22,21 +23,19 @@ public class CommunityProvider {
     }
 
     public List<GetCommunityPostRes>    getPostList(long    channelId)  throws BaseException{
-        try{
-            List<GetCommunityPostRes>   postList = communityDao.getPostList(channelId);
-            return postList;
-        }catch (Exception e){
-            throw   new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        if(checkExistingUser(channelId) == 0){
+            throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
         }
+        List<GetCommunityPostRes>   postList = communityDao.getPostList(channelId);
+        return postList;
     }
 
     public List<GetCommunityPostRes>  getPost(long    postId) throws BaseException{
-        try{
-            List<GetCommunityPostRes> getCommunityPostRes = communityDao.getCommunityPost(postId);
-            return getCommunityPostRes;
-        }catch (Exception e){
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        if(checkPost(postId) == 0){
+            throw   new BaseException(BaseResponseStatus.POST_NOT_EXISTS);
         }
+        List<GetCommunityPostRes> getCommunityPostRes = communityDao.getCommunityPost(postId);
+        return getCommunityPostRes;
     }
 
     public int      checkExistingUser(long  userId) throws BaseException{

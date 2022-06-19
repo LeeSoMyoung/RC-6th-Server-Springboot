@@ -1,6 +1,7 @@
 package com.example.demo.src.playlist;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.playlist.model.PostPlayListReq;
 import com.example.demo.src.playlist.model.PostPlayListRes;
@@ -28,6 +29,9 @@ public class PlayListService {
     @Transactional
     public PostPlayListRes createPlayList(PostPlayListReq postPlayListReq) throws BaseException{
         try{
+            if(playListProvider.checkExistingUser(postPlayListReq.getUserId()) == 0){
+                throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+            }
 
             long    playListId = playListDao.createdPlayList(postPlayListReq);
             PostPlayListRes postPlayListRes = new PostPlayListRes(playListId, postPlayListReq.getUserId());

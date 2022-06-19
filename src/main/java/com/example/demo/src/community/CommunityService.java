@@ -1,6 +1,7 @@
 package com.example.demo.src.community;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.community.model.PatchCommunityDescriptionReq;
 import com.example.demo.utils.JwtService;
@@ -23,14 +24,13 @@ public class CommunityService {
 
     @Transactional
     public void modifyDescription(PatchCommunityDescriptionReq  patchCommunityDescriptionReq)   throws BaseException{
-       // try{
-
+            if(communityProvider.checkPost(patchCommunityDescriptionReq.getPostId()) == 0){
+                throw   new BaseException(BaseResponseStatus.POST_NOT_EXISTS);
+           }
             int result = communityDao.modifyDescription(patchCommunityDescriptionReq);
             if(result == 0){
                 throw new BaseException(BaseResponseStatus.MODIFY_FAIL_USERNAME);
             }
-      //  }catch (Exception e){
-       //     throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
-      //  }
+            return;
     }
 }

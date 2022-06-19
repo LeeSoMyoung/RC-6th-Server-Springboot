@@ -72,8 +72,6 @@ public class UserService {
 
     @Transactional
     public PostSubscriptionRes postChannelFollow(PostSubscriptionReq postSubscriptionReq)  throws BaseException{
-       // try{
-
         if(userProvider.checkExistingUser(postSubscriptionReq.getUserId()) == 0){
             throw   new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
         }
@@ -81,34 +79,27 @@ public class UserService {
             throw   new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
         }
 
-            long    subscriptionId = userDao.followChannel(postSubscriptionReq);
-            PostSubscriptionRes postSubscriptionRes = new PostSubscriptionRes(subscriptionId, postSubscriptionReq.getUserId(), postSubscriptionReq.getChannelId());
-            return postSubscriptionRes;
-       // }catch (Exception exception){
-        //    throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
-      //  }
+        long    subscriptionId = userDao.followChannel(postSubscriptionReq);
+        PostSubscriptionRes postSubscriptionRes = new PostSubscriptionRes(subscriptionId, postSubscriptionReq.getUserId(), postSubscriptionReq.getChannelId());
+        return postSubscriptionRes;
     }
     @Transactional
     public PostUserRes createUser(PostUserReq postUserReq)  throws BaseException{
-        if(userProvider.checkUserName(postUserReq.getUserName())==1){
-            throw new BaseException(BaseResponseStatus.POST_USERS_EXISTS_USERNAME);
-        }
-        if(userProvider.checkEmail(postUserReq.getEmail())==1){
-            throw new BaseException(BaseResponseStatus.POST_USERS_EXISTS_EMAIL);
-        }
         try{
             String pw = new SHA256().encrypt(postUserReq.getPassword());
             postUserReq.setPassword(pw);
         }catch (Exception ignored){
             throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
         }
-        try{
-            long    userId = userDao.createUser(postUserReq);
-            String  jwt = jwtService.createJwt(userId);
-            return new PostUserRes(jwt, userId);
-        }catch (Exception exception){
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        if(userProvider.checkUserName(postUserReq.getUserName())==1){
+            throw new BaseException(BaseResponseStatus.POST_USERS_EXISTS_USERNAME);
         }
+        if(userProvider.checkEmail(postUserReq.getEmail())==1){
+            throw new BaseException(BaseResponseStatus.POST_USERS_EXISTS_EMAIL);
+        }
+        long    userId = userDao.createUser(postUserReq);
+        String  jwt = jwtService.createJwt(userId);
+        return new PostUserRes(jwt, userId);
     }
 
     public void createKakaoId(long userId, String email) throws BaseException{

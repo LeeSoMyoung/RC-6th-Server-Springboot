@@ -27,10 +27,15 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/{userId}")
-    public BaseResponse<List<GetChannelInfoRes>> getChannelInfo(@PathVariable("userId")long  userId) {
+    public BaseResponse<List<GetChannelInfoRes>> getChannelInfo(@PathVariable("userId")String id) {
         try{
+            if(!ValidationRegex.isDigit(id)){
+                return new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
+
+            long    userId = Long.parseLong(id);
             List<GetChannelInfoRes> channelInfo = userProvider.getChannelInfo(userId);
-                    return  new BaseResponse<List<GetChannelInfoRes>>(channelInfo);
+            return  new BaseResponse<List<GetChannelInfoRes>>(channelInfo);
             }
             catch (BaseException baseException){
                 return new BaseResponse<>((baseException.getStatus()));
@@ -39,9 +44,13 @@ public class UserController {
 
     @ResponseBody
     @PatchMapping("/{userId}/status")
-    public BaseResponse<PatchUserStatusRes> patchUserStatus(@PathVariable("userId")long userId){
+    public BaseResponse<PatchUserStatusRes> patchUserStatus(@PathVariable("userId")String id){
         try{
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
 
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -59,9 +68,14 @@ public class UserController {
 
     @ResponseBody
     @PatchMapping("/{userId}")
-    public BaseResponse<String>         patchUserName(@PathVariable("userId")long userId, @RequestBody  String userName){
+    public BaseResponse<String>         patchUserName(@PathVariable("userId")String id, @RequestBody  String userName){
 
         try{
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
+
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -81,9 +95,14 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/subscription/{userId}")
-    public BaseResponse<PostSubscriptionRes>    postSubscription(@PathVariable("userId")long userId, @RequestBody long channelId){
+    public BaseResponse<PostSubscriptionRes>    postSubscription(@PathVariable("userId")String id, @RequestBody String channel){
         try{
+            if(!ValidationRegex.isDigit(id) || !ValidationRegex.isDigit(channel)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
 
+            long    userId = Long.parseLong(id);
+            long    channelId = Long.parseLong(channel);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){

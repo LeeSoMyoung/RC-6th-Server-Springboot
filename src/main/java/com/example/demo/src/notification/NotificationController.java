@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.notification.model.GetNotificationRes;
 import com.example.demo.utils.JwtService;
+import com.example.demo.utils.ValidationRegex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,13 @@ public class NotificationController {
 
     @ResponseBody
     @GetMapping("/{userId}")
-    public BaseResponse<List<GetNotificationRes>> getNotifications(@PathVariable("userId")long userId) {
+    public BaseResponse<List<GetNotificationRes>> getNotifications(@PathVariable("userId")String id) {
         try{
+            if(!ValidationRegex.isDigit(id)){
+                return new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
+
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){

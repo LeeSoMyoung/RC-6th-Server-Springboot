@@ -6,6 +6,7 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.like.model.PostCommentLikeReq;
 import com.example.demo.src.like.model.PostVideoLikeReq;
 import com.example.demo.utils.JwtService;
+import com.example.demo.utils.ValidationRegex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +31,17 @@ public class LikeController {
 
     @ResponseBody
     @PostMapping("/{videoId}/{userId}")
-    public BaseResponse<String> createVideoLike(@PathVariable("videoId") long videoId,
-                                                @PathVariable("userId") long userId,
+    public BaseResponse<String> createVideoLike(@PathVariable("videoId") String video,
+                                                @PathVariable("userId") String user,
                                                 @RequestBody String isLike)
     {
         try{
-            if(likeProvider.checkExistingUser(userId) == 0){
-                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            if(!ValidationRegex.isDigit(video) || !ValidationRegex.isDigit(user)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
 
-
+            long    userId = Long.parseLong(user);
+            long    videoId = Long.parseLong(video);
 
             long    jwtUserId = jwtService.getUserId();
 
@@ -59,15 +61,17 @@ public class LikeController {
 
     @ResponseBody
     @PostMapping("/comments/{commentId}/{userId}")
-    public BaseResponse<String> createCommentLike(@PathVariable("commentId")long commentId,
-                                                  @PathVariable("userId")long userId,
+    public BaseResponse<String> createCommentLike(@PathVariable("commentId")String comment,
+                                                  @PathVariable("userId")String user,
                                                   @RequestBody String isLike)
     {
         try{
-
-            if(likeProvider.checkExistingUser(userId) == 0){
-                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            if(!ValidationRegex.isDigit(comment) || !ValidationRegex.isDigit(user)){
+                return new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
+
+            long        userId = Long.parseLong(user);
+            long        commentId = Long.parseLong(comment);
 
             long    jwtUserId = jwtService.getUserId();
 

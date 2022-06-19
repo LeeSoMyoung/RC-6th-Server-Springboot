@@ -30,25 +30,20 @@ public class UserProvider {
     }
     @Transactional(readOnly = true)
     public List<GetChannelInfoRes> getChannelInfo(long userId) throws BaseException {
-        try{
-            if(checkExistingUser(userId) == 0){
-                throw  new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
-            }
-            List<GetChannelInfoRes>   getChannelInfoRes = userDao.getChannelInfo(userId);
-            return getChannelInfoRes;
-        } catch (Exception e){
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        if(checkExistingUser(userId) == 0){
+            throw  new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
         }
+        List<GetChannelInfoRes>   getChannelInfoRes = userDao.getChannelInfo(userId);
+        return getChannelInfoRes;
     }
 
     @Transactional(readOnly = true)
     public PatchUserStatusReq     getPatchUserStatusReq(long  userId) throws BaseException{
-        try{
-            PatchUserStatusReq patchUserStatusReq = userDao.getStatusModifyReq(userId);
-            return patchUserStatusReq;
-        }catch (Exception e){
-           throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        if(checkExistingUser(userId) == 0){
+            throw  new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
         }
+        PatchUserStatusReq patchUserStatusReq = userDao.getStatusModifyReq(userId);
+        return patchUserStatusReq;
     }
 
     @Transactional(readOnly = true)
@@ -79,6 +74,7 @@ public class UserProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     public PostLoginRes     getPwd(PostLoginReq postLoginReq)   throws BaseException{
         User    user = userDao.getPwd(postLoginReq);
         String  encryptedPwd;
@@ -103,6 +99,7 @@ public class UserProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     public int      checkExistingUser(long  userId) throws BaseException{
         try{
             return  userDao.isExistingUser(userId);
@@ -112,6 +109,7 @@ public class UserProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<GetUserRes> getUserByKakaoId(long   userId) throws BaseException{
         try{
             List<GetUserRes>   kakaoUser = userDao.getUserByKakaoId(userId);

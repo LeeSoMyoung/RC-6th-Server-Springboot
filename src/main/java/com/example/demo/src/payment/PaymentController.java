@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.payment.model.*;
 import com.example.demo.utils.JwtService;
+import com.example.demo.utils.ValidationRegex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,13 @@ public class PaymentController {
 
     @ResponseBody
     @GetMapping("/card-infos/{userId}")
-    public BaseResponse<List<CardInfo>> getCardInfos(@PathVariable("userId")long  userId){
+    public BaseResponse<List<CardInfo>> getCardInfos(@PathVariable("userId")String id){
         try {
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
+
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -49,8 +55,13 @@ public class PaymentController {
 
     @ResponseBody
     @GetMapping("/receipts/{userId}")
-    public BaseResponse<List<GetPaymentRes>>    getPaymentInfos(@PathVariable("userId")long userId){
+    public BaseResponse<List<GetPaymentRes>>    getPaymentInfos(@PathVariable("userId")String id){
         try {
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
+
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -66,23 +77,29 @@ public class PaymentController {
 
     @ResponseBody
     @PostMapping("/{userId}")
-    public BaseResponse<PostPaymentRes> createPaymentInfo(@PathVariable("userId")long userId,@RequestBody PostPaymentReq postPaymentReq){
-        if(postPaymentReq.getCard()==null){
-            return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
-        }
-        if(postPaymentReq.getCardNum()==null){
-            return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
-        }
-        if(postPaymentReq.getCVC()==null){
-            return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
-        }
-        if(postPaymentReq.getPassword()==null){
-            return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
-        }
-        if(postPaymentReq.getCVC()==null){
-            return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
-        }
+    public BaseResponse<PostPaymentRes> createPaymentInfo(@PathVariable("userId")String id,@RequestBody PostPaymentReq postPaymentReq){
         try{
+            if(postPaymentReq.getCard()==null){
+                return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
+            }
+            if(postPaymentReq.getCardNum()==null){
+                return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
+            }
+            if(postPaymentReq.getCVC()==null){
+                return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
+            }
+            if(postPaymentReq.getPassword()==null){
+                return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
+            }
+            if(postPaymentReq.getCVC()==null){
+                return  new BaseResponse<>(BaseResponseStatus.POST_PAYMENT_EMPTY);
+            }
+
+            if(!ValidationRegex.isDigit(id)){
+                return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
+            }
+
+            long    userId = Long.parseLong(id);
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
