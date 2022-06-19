@@ -28,6 +28,7 @@ public class PlayListService {
     @Transactional
     public PostPlayListRes createPlayList(PostPlayListReq postPlayListReq) throws BaseException{
         try{
+
             long    playListId = playListDao.createdPlayList(postPlayListReq);
             PostPlayListRes postPlayListRes = new PostPlayListRes(playListId, postPlayListReq.getUserId());
             return postPlayListRes;

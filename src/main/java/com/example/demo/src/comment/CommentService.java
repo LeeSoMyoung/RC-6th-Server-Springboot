@@ -1,6 +1,7 @@
 package com.example.demo.src.comment;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.comment.model.*;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ public class CommentService {
     @Transactional
     public void modifyCommentDescription(PatchCommentReq patchCommentReq)   throws BaseException{
         try{
+            if(commentProvider.checkCommentExists(patchCommentReq.getCommentId()) == 0){
+                throw new BaseException(BaseResponseStatus.COMMENT_NOT_EXISTS);
+            }
             int res = commentDao.modifyComment(patchCommentReq);
             if(res == 0){
                 // 변경에 실패했다면

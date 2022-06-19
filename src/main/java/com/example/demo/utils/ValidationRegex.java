@@ -10,5 +10,15 @@ public class ValidationRegex {
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
+
+    public static boolean   isDigit(String  id){
+        int length = id.length();
+        for(int i=0;i<length;++i){
+            if(id.charAt(i)<'0'||id.charAt(i)>'9'){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

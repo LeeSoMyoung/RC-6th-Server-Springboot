@@ -61,4 +61,13 @@ public class OAuthService {
               throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
           }
     }
+
+    public void     logOut(String code) throws BaseException{
+      //  try{
+            kakaoOAuth.kakaoLogOut(code);
+       // }
+       // catch (Exception exception){
+      //      throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+     //   }
+    }
 }

@@ -113,4 +113,28 @@ public class CommentDao {
                 getStreamingCommentsQueryParams
         );
     }
+
+    long        getCommentWriter(long   commentId){
+        String  getCommentWriterQuery = "SELECT" +
+                "   userId" +
+                "FROM Comments" +
+                "WHERE commentId = ?";
+        long    getCommentWriterQueryParams = commentId;
+
+        return this.jdbcTemplate.queryForObject(getCommentWriterQuery,
+                long.class,
+                getCommentWriterQueryParams);
+    }
+
+    int         checkCommentExists(long     commentId){
+        String  commentExistQuery = "SELECT" +
+                "EXISTS(SELECT commentId FROM Comments WHERE commentId = ?)";
+        long    commentExistQueryParams = commentId;
+
+        return  this.jdbcTemplate.queryForObject(
+                commentExistQuery,
+                int.class,
+                commentExistQueryParams
+        );
+    }
 }

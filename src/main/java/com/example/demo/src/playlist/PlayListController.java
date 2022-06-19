@@ -35,8 +35,8 @@ public class PlayListController {
     }
 
     @ResponseBody
-    @GetMapping("/users/{userId}")
-    public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@PathVariable("userId")long userId){
+    @GetMapping("")
+    public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@RequestParam("userId")long userId){
         try{
             if(playListProvider.checkExistingUser(userId) == 0){
                 return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
@@ -54,7 +54,7 @@ public class PlayListController {
     public BaseResponse<List<PlayListVideoRes>> getPlayListVideos(@PathVariable("playListId")long playListId){
         try{
             if(playListProvider.checkExistingPlayListId(playListId) == 0){
-
+                return  new BaseResponse<>(BaseResponseStatus.PLAYLIST_NOT_EXISTS);
             }
             List<PlayListVideoRes>  playListVideoResList = playListProvider.getPlayListVideos(playListId);
             return new BaseResponse<>(playListVideoResList);
@@ -70,6 +70,11 @@ public class PlayListController {
                                                            @RequestBody(required = true) String playListTitle)
     {
         try{
+
+            if(playListProvider.checkExistingUser(userId) == 0){
+                return new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){

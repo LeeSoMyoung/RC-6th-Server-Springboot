@@ -51,6 +51,10 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_USERNAME(false, 2029, "이미 존재하는 이름입니다."),
     PLAYLIST_NOT_EXISTS(false, 2030, "존재하지 않는 플레이리스트입니다."),
 
+    COMMENT_NOT_EXISTS(false, 2031, "존재하지 않는 댓글입니다."),
+
+    INVALID_ID(false, 2032, "올바르지 않은 형식입니다."),
+
     /**
      * 3000 : Response 오류
      */

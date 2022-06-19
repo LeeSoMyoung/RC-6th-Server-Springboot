@@ -38,4 +38,23 @@ public class CommentProvider {
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
     }
+
+    @Transactional(readOnly = true)
+    public long                         getCommentWriter(long   commentId)  throws BaseException{
+        try{
+            return  commentDao.getCommentWriter(commentId);
+        }
+        catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    int         checkCommentExists(long commentId)  throws BaseException{
+        try{
+            return commentDao.checkCommentExists(commentId);
+        }catch (Exception exception){
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
 }

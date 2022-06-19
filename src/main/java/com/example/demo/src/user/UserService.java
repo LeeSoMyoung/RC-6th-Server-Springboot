@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.config.secret.Secret;
 import com.example.demo.src.user.model.*;
@@ -9,6 +10,7 @@ import com.example.demo.utils.SHA256;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import lombok.AllArgsConstructor;
 import org.apache.catalina.connector.InputBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,7 @@ import java.net.URL;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class UserService {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
 
@@ -35,16 +38,13 @@ public class UserService {
     private final UserProvider  userProvider;
     private final JwtService    jwtService;
 
-    @Autowired
-    public UserService(UserDao userDao, UserProvider userProvider, JwtService jwtService){
-        this.userDao = userDao;
-        this.userProvider = userProvider;
-        this.jwtService = jwtService;
-    }
-
     @Transactional
     public void   patchUserStatus(PatchUserStatusReq patchUserStatusReq)    throws BaseException{
         try{
+            if(userProvider.checkExistingUser(patchUserStatusReq.getUserId()) == 0){
+                throw   new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+
             int result = userDao.changeUserStatus(patchUserStatusReq);
             if(result == 0){
                 throw new BaseException(BaseResponseStatus.FAIL_TO_MODIFY_COMMENT_ERROR);
@@ -57,6 +57,10 @@ public class UserService {
     @Transactional
     public void     patchUserName(PatchUserNameReq patchUserNameReq)    throws BaseException{
         try{
+            if(userProvider.checkExistingUser(patchUserNameReq.getUserId()) == 0){
+                throw   new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+            }
+
             int result = userDao.modifyUserName(patchUserNameReq);
             if(result == 0){
                 throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
@@ -69,6 +73,14 @@ public class UserService {
     @Transactional
     public PostSubscriptionRes postChannelFollow(PostSubscriptionReq postSubscriptionReq)  throws BaseException{
        // try{
+
+        if(userProvider.checkExistingUser(postSubscriptionReq.getUserId()) == 0){
+            throw   new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
+        if(userProvider.checkExistingUser(postSubscriptionReq.getChannelId()) == 0){
+            throw   new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
+        }
+
             long    subscriptionId = userDao.followChannel(postSubscriptionReq);
             PostSubscriptionRes postSubscriptionRes = new PostSubscriptionRes(subscriptionId, postSubscriptionReq.getUserId(), postSubscriptionReq.getChannelId());
             return postSubscriptionRes;

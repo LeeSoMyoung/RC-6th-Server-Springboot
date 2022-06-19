@@ -71,4 +71,20 @@ public class KakaoOAuth {
 
         return new KakaoUser(userId, email, userName);
     }
+
+    public void     kakaoLogOut(String code){
+        HttpHeaders headers = new HttpHeaders();
+        String      accessToken = getKakaoAccessToken(code);
+        headers.add("Authorization", "Bearer "+accessToken);
+
+        RestTemplate    restTemplate = new RestTemplate();
+        HttpEntity<MultiValueMap<String,String>>    logoutRequest = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://kapi.kakao.com/v1/user/logout",
+                HttpMethod.POST,
+                logoutRequest,
+                String.class
+        );
+    }
 }

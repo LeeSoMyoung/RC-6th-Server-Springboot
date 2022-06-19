@@ -24,4 +24,16 @@ public class OAuthController {
             return new BaseResponse<>(baseException.getStatus());
         }
     }
+
+    @ResponseBody
+    @GetMapping("/kakao/logout")
+    public BaseResponse<String>         kakaoLogOut(@RequestParam("code") String code){
+        try{
+            String  res = "로그아웃에 성공하였습니다.";
+            oAuthService.logOut(code);
+            return new BaseResponse<String>(res);
+        }catch (BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
 }

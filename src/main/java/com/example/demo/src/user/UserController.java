@@ -5,6 +5,8 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
+import com.example.demo.utils.ValidationRegex;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -22,20 +25,10 @@ public class UserController {
     private final UserService       userService;
     private final JwtService        jwtService;
 
-    @Autowired
-    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
-        this.userProvider = userProvider;
-        this.userService = userService;
-        this.jwtService = jwtService;
-    }
-
     @ResponseBody
     @GetMapping("/{userId}")
     public BaseResponse<List<GetChannelInfoRes>> getChannelInfo(@PathVariable("userId")long  userId) {
         try{
-            if(userProvider.checkExistingUser(userId) == 0){
-                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
-            }
             List<GetChannelInfoRes> channelInfo = userProvider.getChannelInfo(userId);
                     return  new BaseResponse<List<GetChannelInfoRes>>(channelInfo);
             }
@@ -48,9 +41,13 @@ public class UserController {
     @PatchMapping("/{userId}/status")
     public BaseResponse<PatchUserStatusRes> patchUserStatus(@PathVariable("userId")long userId){
         try{
-            if(userProvider.checkExistingUser(userId) == 0){
-                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
+
+            long    jwtUserId = jwtService.getUserId();
+
+            if(jwtUserId != userId){
+                return new BaseResponse<>(BaseResponseStatus.INVALID_USER_JWT);
             }
+
             PatchUserStatusReq patchUserStatusReq = userProvider.getPatchUserStatusReq(userId);
             userService.patchUserStatus(patchUserStatusReq);
             PatchUserStatusRes patchUserStatusRes = userProvider.getPatchUserStatusRes(userId);
@@ -65,10 +62,6 @@ public class UserController {
     public BaseResponse<String>         patchUserName(@PathVariable("userId")long userId, @RequestBody  String userName){
 
         try{
-            if(userProvider.checkExistingUser(userId) == 0){
-                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
-            }
-
             long    jwtUserId = jwtService.getUserId();
 
             if(jwtUserId != userId){
@@ -90,12 +83,6 @@ public class UserController {
     @PostMapping("/subscription/{userId}")
     public BaseResponse<PostSubscriptionRes>    postSubscription(@PathVariable("userId")long userId, @RequestBody long channelId){
         try{
-            if(userProvider.checkExistingUser(userId) == 0){
-                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
-            }
-            if(userProvider.checkExistingUser(channelId) == 0){
-                return  new BaseResponse<>(BaseResponseStatus.USER_NOT_EXISTS);
-            }
 
             long    jwtUserId = jwtService.getUserId();
 
@@ -114,13 +101,14 @@ public class UserController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostUserRes>    createUser(@RequestBody PostUserReq postUserReq){
-        if(postUserReq.getUserName() == null) {
-            return  new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_USERNAME);
-        }
-        if(postUserReq.getEmail() == null) {
-            return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
-        }
         try{
+            if(postUserReq.getUserName() == null) {
+                return  new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_USERNAME);
+            }
+            if(postUserReq.getEmail() == null) {
+                return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
+            }
+
             PostUserRes postUserRes = userService.createUser(postUserReq);
             return new BaseResponse<>(postUserRes);
         }catch (BaseException baseException){
@@ -131,13 +119,8 @@ public class UserController {
     @ResponseBody
     @PostMapping("/logIn")
     public BaseResponse<PostLoginRes>   logIn(@RequestBody PostLoginReq postLoginReq){
-        if(postLoginReq.getEmail() == null){
-            return new BaseResponse<>(BaseResponseStatus.POST_LOGIN_EMPTY_EMAIL);
-        }
-        if(postLoginReq.getPassword() == null){
-            return new BaseResponse<>(BaseResponseStatus.POST_LOGIN_EMPTY_PASSWORD);
-        }
         try{
+            //String  email = postLoginReq.getEmail();
             PostLoginRes postLoginRes = userProvider.getPwd(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         }catch (BaseException baseException){

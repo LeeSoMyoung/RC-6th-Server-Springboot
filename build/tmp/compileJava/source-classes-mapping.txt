@@ -78,8 +78,6 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
-com/example/demo/src/oauth/OAuthProvider.java
- com.example.demo.src.oauth.OAuthProvider
 com/example/demo/src/like/LikeProvider.java
  com.example.demo.src.like.LikeProvider
 com/example/demo/src/like/model/PostVideoLikeReq.java
