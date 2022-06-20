@@ -9,8 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class LikeService {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
 
@@ -23,6 +25,7 @@ public class LikeService {
         this.likeProvider = likeProvider;
     }
 
+    @Transactional
     public void createCommentLike(PostCommentLikeReq postCommentLikeReq)    throws BaseException {
         if(likeProvider.checkExistingUser(postCommentLikeReq.getUserId()) == 0){
             throw new BaseException(BaseResponseStatus.USER_NOT_EXISTS);
@@ -36,6 +39,7 @@ public class LikeService {
         }
     }
 
+    @Transactional
     public void createVideoLike(PostVideoLikeReq postVideoLikeReq)  throws BaseException{
        try{
            if(likeProvider.checkExistingUser(postVideoLikeReq.getUserId()) == 0){

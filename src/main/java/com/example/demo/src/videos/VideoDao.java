@@ -17,7 +17,18 @@ public class VideoDao{
     public void setDataSource(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
 
     public List<GetVideoRes> getVideos() {
-        String  getVideosQuery = "SELECT * FROM Videos WHERE Videos.isShorts = \'N\'";
+        String  getVideosQuery = "SELECT *,\n" +
+                "    (SELECT\n" +
+                "         CASE\n" +
+                "            when view<1000  then    concat(view,'회')\n" +
+                "            when view<10000 then    concat(round(view/1000,1),'천 회')\n" +
+                "            when view<100000000 then concat(round(view/10000,1),'만 회')\n" +
+                "            else concat(round(view/100000000,1),'억 회')\n" +
+                "        END\n" +
+                "     FROM\n" +
+                "         (SELECT COUNT(*) AS view  FROM Views WHERE Views.videoId = Videos.videoId) v\n" +
+                "    ) as 'view count'\n" +
+                "FROM Videos WHERE Videos.isShorts = 'N';";
         return  this.jdbcTemplate.query(
           getVideosQuery,
                 (rs, rowNum) -> new GetVideoRes(
@@ -35,7 +46,8 @@ public class VideoDao{
                     rs.getString("isShorts"),
                     rs.getString("isFollowerHided"),
                     rs.getTime("playTime"),
-                    rs.getTime("videoLength")
+                    rs.getTime("videoLength"),
+                        rs.getString("view count")
             )
         );
     }
@@ -75,7 +87,18 @@ public class VideoDao{
     }
 
     public GetVideoRes getVideo(long   videoId){
-        String  getVideoQuery = "SELECT * FROM Videos WHERE videoId = ? and isShorts='N'";
+        String  getVideoQuery = "SELECT *,\n" +
+                "    (SELECT\n" +
+                "         CASE\n" +
+                "            when view<1000  then    concat(view,'회')\n" +
+                "            when view<10000 then    concat(round(view/1000,1),'천 회')\n" +
+                "            when view<100000000 then concat(round(view/10000,1),'만 회')\n" +
+                "            else concat(round(view/100000000,1),'억 회')\n" +
+                "        END\n" +
+                "     FROM\n" +
+                "         (SELECT COUNT(*) AS view  FROM Views WHERE Views.videoId = Videos.VideoId) V\n" +
+                "         ) as 'view count'\n" +
+                "FROM Videos WHERE Videos.isShorts = 'N' and Videos.videoId = ?;";
         long  getVideoParmas = videoId;
 
         return  this.jdbcTemplate.queryForObject(
@@ -96,7 +119,8 @@ public class VideoDao{
                                 rs.getString("isShorts"),
                                 rs.getString("isFollowerHided"),
                                 rs.getTime("playTime"),
-                                rs.getTime("videoLength")
+                                rs.getTime("videoLength"),
+                                rs.getString("view count")
                         ),
                 getVideoParmas
         );
