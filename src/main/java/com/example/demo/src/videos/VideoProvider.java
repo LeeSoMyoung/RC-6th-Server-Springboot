@@ -36,11 +36,11 @@ public class VideoProvider {
     }
 
     @Transactional(readOnly = true)
-    public GetVideoRes  getVideo    (long   videoId)    throws BaseException{
+    public GetDetailVideo  getVideo    (long   videoId)    throws BaseException{
         if(checkVideo(videoId) == 0){
             throw new BaseException(BaseResponseStatus.VIDEO_NOT_EXISTS);
         }
-        GetVideoRes getVideoRes = videoDao.getVideo(videoId);
+        GetDetailVideo getVideoRes = videoDao.getVideo(videoId);
         return getVideoRes;
 
     }

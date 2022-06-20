@@ -152,6 +152,8 @@ com/example/demo/src/videos/model/Video.java
  com.example.demo.src.videos.model.Video
 com/example/demo/src/like/model/PatchCommentLikeReq.java
  com.example.demo.src.like.model.PatchCommentLikeReq
+com/example/demo/src/videos/model/GetDetailVideo.java
+ com.example.demo.src.videos.model.GetDetailVideo
 com/example/demo/src/videos/model/PatchVideoReq.java
  com.example.demo.src.videos.model.PatchVideoReq
 com/example/demo/src/videos/model/GetHistoryVideoRes.java

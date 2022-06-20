@@ -1,6 +1,8 @@
 package com.example.demo.src.videos;
 
+import com.example.demo.src.comment.CommentDao;
 import com.example.demo.src.videos.model.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,10 +11,11 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
+@AllArgsConstructor
 public class VideoDao{
 
     private JdbcTemplate jdbcTemplate;
-
+    private final CommentDao    commentDao;
     @Autowired
     public void setDataSource(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
 
@@ -86,7 +89,7 @@ public class VideoDao{
         );
     }
 
-    public GetVideoRes getVideo(long   videoId){
+    public GetDetailVideo getVideo(long   videoId){
         String  getVideoQuery = "SELECT *,\n" +
                 "    (SELECT\n" +
                 "         CASE\n" +
@@ -103,7 +106,7 @@ public class VideoDao{
 
         return  this.jdbcTemplate.queryForObject(
                 getVideoQuery,
-                (rs, rowNum) -> new GetVideoRes
+                (rs, rowNum) -> new GetDetailVideo
                         (
                                 rs.getLong("videoId"),
                                 rs.getLong("userId"),
@@ -120,7 +123,8 @@ public class VideoDao{
                                 rs.getString("isFollowerHided"),
                                 rs.getTime("playTime"),
                                 rs.getTime("videoLength"),
-                                rs.getString("view count")
+                                rs.getString("view count"),
+                                commentDao.getCommentResList(rs.getLong("videoId"))
                         ),
                 getVideoParmas
         );

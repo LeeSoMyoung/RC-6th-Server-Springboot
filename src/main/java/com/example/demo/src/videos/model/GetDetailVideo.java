@@ -1,6 +1,7 @@
 package com.example.demo.src.videos.model;
 
 import com.example.demo.src.comment.model.GetCommentRes;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class GetDetailVideo {
     private long        videoId;
     private long        userId;
@@ -24,7 +26,7 @@ public class GetDetailVideo {
     private String      isOriginal;
     private String      isShorts;
     private String      isFollowerHided;
-    private Time playTime;
+    private Time        playTime;
     private Time        videoLength;
     private String      view;
     private List<GetCommentRes> comments;

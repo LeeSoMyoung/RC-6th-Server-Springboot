@@ -29,14 +29,14 @@ public class VideoController {
 
     @ResponseBody
     @GetMapping("/{videoId}")
-    public BaseResponse<GetVideoRes>    getVideo(@PathVariable("videoId")String  id){
+    public BaseResponse<GetDetailVideo>    getVideo(@PathVariable("videoId")String  id){
         try{
             if(!ValidationRegex.isDigit(id)){
                 return new BaseResponse<>(BaseResponseStatus.INVALID_ID);
             }
             long    videoId = Long.parseLong(id);
-            GetVideoRes getVideoRes = videoProvider.getVideo(videoId);
-            return  new BaseResponse<GetVideoRes>(getVideoRes);
+            GetDetailVideo getVideoRes = videoProvider.getVideo(videoId);
+            return  new BaseResponse<GetDetailVideo>(getVideoRes);
         } catch(BaseException baseException){
             return new BaseResponse<>((baseException.getStatus()));
         }
