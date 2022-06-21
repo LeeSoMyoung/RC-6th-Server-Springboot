@@ -37,7 +37,7 @@ public class PlayListController {
 
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@RequestParam("userId")String id){
+    public BaseResponse<List<GetPlayListsRes>>  getUserPlayLists(@RequestParam("id")String id){
         try{
             if(!ValidationRegex.isDigit(id)){
                 return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);

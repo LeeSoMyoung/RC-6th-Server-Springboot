@@ -43,9 +43,6 @@ public class CommentService {
 
     @Transactional
     public PostCommentRes createComment(PostCommentReq postCommentReq) throws BaseException{
-        if(postCommentReq.getDescription().equals("") || postCommentReq.getDescription()==null){
-            throw new BaseException(BaseResponseStatus.POST_COMMENT_EMPTY_DESCRIPTION);
-        }
         try{
             long    commentId = commentDao.createComment(postCommentReq);
             return  new PostCommentRes(commentId, postCommentReq.getVideoId());

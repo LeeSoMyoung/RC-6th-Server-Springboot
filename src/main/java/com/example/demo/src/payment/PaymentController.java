@@ -32,8 +32,8 @@ public class PaymentController {
     }
 
     @ResponseBody
-    @GetMapping("/card-infos/{userId}")
-    public BaseResponse<List<CardInfo>> getCardInfos(@PathVariable("userId")String id){
+    @GetMapping("/card-infos")
+    public BaseResponse<List<CardInfo>> getCardInfos(@RequestParam("id")String id){
         try {
             if(!ValidationRegex.isDigit(id)){
                 return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);
@@ -54,8 +54,8 @@ public class PaymentController {
     }
 
     @ResponseBody
-    @GetMapping("/receipts/{userId}")
-    public BaseResponse<List<GetPaymentRes>>    getPaymentInfos(@PathVariable("userId")String id){
+    @GetMapping("/receipts")
+    public BaseResponse<List<GetPaymentRes>>    getPaymentInfos(@RequestParam("id")String id){
         try {
             if(!ValidationRegex.isDigit(id)){
                 return  new BaseResponse<>(BaseResponseStatus.INVALID_ID);

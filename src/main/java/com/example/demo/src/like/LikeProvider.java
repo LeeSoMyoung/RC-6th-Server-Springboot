@@ -7,8 +7,10 @@ import com.example.demo.src.like.model.PostVideoLikeReq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class LikeProvider {
     final Logger    logger = LoggerFactory.getLogger(this.getClass());
 
@@ -18,6 +20,7 @@ public class LikeProvider {
         this.likeDao = likeDao;
     }
 
+    @Transactional(readOnly = true)
     public int  checkVideoLike(PostVideoLikeReq postVideoLikeReq)   throws BaseException{
         try{
             return likeDao.checkVideoLike(postVideoLikeReq);
@@ -26,6 +29,7 @@ public class LikeProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     public int  checkCommentLike(PostCommentLikeReq postCommentLikeReq) throws BaseException{
         try{
             return likeDao.checkCommentLike(postCommentLikeReq);
@@ -34,6 +38,7 @@ public class LikeProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     public int      checkExistingUser(long  userId) throws BaseException{
         try{
             return  likeDao.isExistingUser(userId);
